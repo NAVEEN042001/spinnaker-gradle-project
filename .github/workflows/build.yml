@@ -1,3 +1,16 @@
+version: 2.1
+
+jobs:
+  trigger-jenkins:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - run:
+          name: Trigger Jenkins Job
+          command: |
+            curl -X POST http://192.168.1.75:8081/job/NS/job/AWS-CICD/build
+                 --user "JENKINS_USER:JENKINS_API_TOKEN" \
+                 -d "json={\"parameter\": [{\"name\":\"PARAM_NAME\", \"value\":\"PARAM_VALUE\"}]}"
 version: 2
 jobs:
 build:
@@ -16,10 +29,6 @@ build:
 
     - store_artifacts:
         path: /tmp/artifacts
-
-
-        
-
 version: 2.1
 
 executors:
